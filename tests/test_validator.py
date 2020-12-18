@@ -15,7 +15,7 @@ from drf_recaptcha.validators import ReCaptchaV2Validator, ReCaptchaV3Validator
     ],
 )
 def test_recaptcha_validator_get_response_success(validator_class, params):
-    validator = validator_class(secret_key="TEST_SECRET_KEY", **params)
+    validator = validator_class(**params)
     assert isinstance(validator.get_response("test_token"), RecaptchaResponse)
 
 
@@ -27,7 +27,7 @@ def test_recaptcha_validator_get_response_success(validator_class, params):
     ],
 )
 def test_recaptcha_validator_get_response_fail(validator_class, params):
-    validator = validator_class(secret_key="TEST_SECRET_KEY", **params)
+    validator = validator_class(**params)
     assert isinstance(validator.get_response("test_token"), RecaptchaResponse)
 
 
@@ -45,7 +45,7 @@ def test_recaptcha_validator_get_response_fail(validator_class, params):
     ],
 )
 def test_recaptcha_validator_call_success(validator_class, params, response):
-    validator = validator_class(secret_key="TEST_SECRET_KEY", **params)
+    validator = validator_class(**params)
     validator.get_response = mock.Mock(return_value=response)
     try:
         validator("test_token")
@@ -105,7 +105,7 @@ def test_recaptcha_validator_call_success(validator_class, params, response):
     ],
 )
 def test_recaptcha_validator_call_fail(validator_class, params, response, error):
-    validator = validator_class(secret_key="TEST_SECRET_KEY", **params)
+    validator = validator_class(**params)
     validator.get_response = mock.Mock(return_value=response)
 
     with pytest.raises(ValidationError) as exc_info:
@@ -124,7 +124,7 @@ def test_recaptcha_validator_call_fail(validator_class, params, response, error)
 def test_recaptcha_validator_set_context(validator_class, params, settings):
     settings.DRF_RECAPTCHA_TESTING = True
 
-    validator = validator_class(secret_key="TEST_SECRET_KEY", **params)
+    validator = validator_class(**params)
 
     assert validator.recaptcha_client_ip == ""
 

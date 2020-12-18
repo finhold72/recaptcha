@@ -40,6 +40,9 @@ class ReCaptchaValidator:
             )
 
         self.recaptcha_client_ip, _ = get_client_ip(request)
+        self.recaptcha_secret_key = serializer_field.context.get(
+            "DRF_RECAPTCHA_SECRET_KEY", settings.DRF_RECAPTCHA_SECRET_KEY
+        )
 
     def get_response(self, value: str) -> client.RecaptchaResponse:
         try:
@@ -65,9 +68,6 @@ class ReCaptchaValidator:
 
 
 class ReCaptchaV2Validator(ReCaptchaValidator):
-    def __init__(self, secret_key):
-        self.recaptcha_secret_key = secret_key
-
     def __call__(self, value, serializer_field=None):
         # compatibility with drf < 3.11
         if serializer_field and not self.recaptcha_client_ip:
@@ -91,10 +91,9 @@ class ReCaptchaV2Validator(ReCaptchaValidator):
 
 
 class ReCaptchaV3Validator(ReCaptchaValidator):
-    def __init__(self, action, required_score, secret_key):
+    def __init__(self, action, required_score):
         self.recaptcha_action = action
         self.recaptcha_required_score = required_score
-        self.recaptcha_secret_key = secret_key
 
     def __call__(self, value, serializer_field=None):
         # compatibility with drf < 3.11

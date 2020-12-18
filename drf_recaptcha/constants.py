@@ -7,6 +7,8 @@
 # You will always get No CAPTCHA and all verification requests will pass.
 
 TEST_V2_SECRET_KEY = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+# SITE_KEY: 6Lf4f8EZAAAAAATdYSJV0kJQ2w_KTx8pdNRTvR8w
+TEST_V3_SECRET_KEY = "6Lf4f8EZAAAAAEHo2Z78ZFgwTJFsWaBIzG-Xc_AZ"
 
 DEFAULT_RECAPTCHA_DOMAIN = "www.google.com"
 
